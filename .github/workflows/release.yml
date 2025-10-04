@@ -63,23 +63,23 @@ jobs:
         generate_release_notes: true
         body: |
           ## What's Changed
-          
+
           Download the DMG file below and drag TahoeElectronFix to your Applications folder.
-          
+
           ### Installation
           1. Download `TahoeElectronFix-${{ github.ref_name }}.dmg`
           2. Open the DMG file
           3. Drag TahoeElectronFix to Applications
           4. Right-click and select "Open" (first time only)
-          
+
           ### Requirements
           - macOS 13.0 (Ventura) or later
-          
+
           ---
-          
+
           ☕ [Support the developer](https://ko-fi.com/realabitbol)
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
     
     - name: Upload DMG artifact
       uses: actions/upload-artifact@v4
