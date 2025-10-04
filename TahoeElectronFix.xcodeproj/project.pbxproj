@@ -6,9 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		962F8E702E91D9F100070293 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 962F8E6F2E91D9F100070293 /* icon.png */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		962F8E5A2E91C15600070293 /* TahoeElectronFix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TahoeElectronFix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		962F8E682E91CFAC00070293 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		962F8E6F2E91D9F100070293 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -49,6 +54,7 @@
 				962F8E5C2E91C15600070293 /* TahoeElectronFix */,
 				962F8E5B2E91C15600070293 /* Products */,
 				962F8E682E91CFAC00070293 /* README.md */,
+				962F8E6F2E91D9F100070293 /* icon.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +130,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				962F8E702E91D9F100070293 /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

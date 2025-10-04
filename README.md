@@ -20,7 +20,7 @@
 
 ## Overview
 
-TahoeElectronFix is a simple macOS menu bar utility that allows you to easily toggle the `CHROME_HEADLESS` environment variable. This is particularly useful for developers working with Electron apps or Chrome/Chromium-based applications that need to control headless mode behavior.
+TahoeElectronFix is a SUPER-light and extremely simple macOS menu bar utility that allows you to easily toggle the `CHROME_HEADLESS` environment variable. This is particularly useful for users of MacOS Tahoe running Electron apps that haven't been updated to the bug fixed Electron version.This setting saves a lot of load on the system and therefore preserves battery life.
 
 ## Features
 
