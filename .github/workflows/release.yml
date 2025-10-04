@@ -1,0 +1,89 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v1.0.0
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+    
+    - name: Install create-dmg
+      run: brew install create-dmg
+    
+    - name: Build app
+      run: |
+        xcodebuild -project TahoeElectronFix.xcodeproj \
+          -scheme TahoeElectronFix \
+          -configuration Release \
+          -derivedDataPath build \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGNING_ALLOWED=NO \
+          clean build
+    
+    - name: Locate built app
+      run: |
+        APP_PATH=$(find build/Build/Products/Release -name "*.app" -maxdepth 1)
+        echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
+        echo "Found app at: $APP_PATH"
+    
+    - name: Create DMG
+      run: |
+        mkdir -p dist
+        create-dmg \
+          --volname "TahoeElectronFix" \
+          --volicon "${{ env.APP_PATH }}/Contents/Resources/AppIcon.icns" \
+          --window-pos 200 120 \
+          --window-size 600 400 \
+          --icon-size 100 \
+          --icon "TahoeElectronFix.app" 175 120 \
+          --hide-extension "TahoeElectronFix.app" \
+          --app-drop-link 425 120 \
+          --no-internet-enable \
+          "dist/TahoeElectronFix-${{ github.ref_name }}.dmg" \
+          "${{ env.APP_PATH }}"
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*.dmg
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+        body: |
+          ## What's Changed
+          
+          Download the DMG file below and drag TahoeElectronFix to your Applications folder.
+          
+          ### Installation
+          1. Download `TahoeElectronFix-${{ github.ref_name }}.dmg`
+          2. Open the DMG file
+          3. Drag TahoeElectronFix to Applications
+          4. Right-click and select "Open" (first time only)
+          
+          ### Requirements
+          - macOS 13.0 (Ventura) or later
+          
+          ---
+          
+          ☕ [Support the developer](https://ko-fi.com/realabitbol)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Upload DMG artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: TahoeElectronFix-DMG
+        path: dist/*.dmg
+        retention-days: 30
