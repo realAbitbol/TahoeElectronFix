@@ -53,6 +53,14 @@ jobs:
           --no-internet-enable \
           "dist/TahoeElectronFix-${{ github.ref_name }}.dmg" \
           "${{ env.APP_PATH }}"
+        
+    - name: VirusTotal Scan
+      uses: crazy-max/ghaction-virustotal@v3
+      with:
+        vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
+        files: |
+          dist/*.dmg
+        update_release_body: true
     
     - name: Create Release
       uses: softprops/action-gh-release@v1

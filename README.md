@@ -5,6 +5,10 @@
 </p>
 
 <p align="center">
+  <a href="https://www.virustotal.com"><img src="https://img.shields.io/badge/VirusTotal-Scanned-green" alt="VirusTotal Scan"></a>
+</p>
+
+<p align="center">
   <strong>A lightweight macOS menu bar app to control Chrome's headless mode</strong>
 </p>
 

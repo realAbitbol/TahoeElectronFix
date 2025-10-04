@@ -1,0 +1,35 @@
+# Xcode
+*.xcuserdatad/
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Build products
+build/
+*.build/
+DerivedData/
+
+# Swift Package Manager
+.build/
+Packages/
+Package.pinned
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Releases
+dist/
