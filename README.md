@@ -44,7 +44,7 @@ TahoeElectronFix is a SUPER-light and extremely simple macOS menu bar utility th
 2. Open the `.dmg` file
 3. Drag **TahoeElectronFix** to your Applications folder
 4. Launch the app
-5. **First time only**: Right-click the app and select "Open" to bypass Gatekeeper
+5. ⚠️ **IMPORTANT First time only**: Right-click the app and select "Open" to bypass Gatekeeper or run in terminal : `xattr -cr /Applications/TahoeElectronFix.app`
 
 ### Build from Source
 
