@@ -8,19 +8,19 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
+    
     - name: Set up Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: latest-stable
-
+    
     - name: Install create-dmg
       run: brew install create-dmg
-
+    
     - name: Build app
       run: |
         xcodebuild -project TahoeElectronFix.xcodeproj \
@@ -33,20 +33,29 @@ jobs:
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO \
           clean build
-
+    
     - name: Locate built app
       run: |
         APP_PATH=$(find build/Build/Products/Release -name "*.app" -maxdepth 1)
         echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
         echo "Found app at: $APP_PATH"
-
-    # ✅ New: Properly clean signatures and extended attributes
-    - name: Clean unsigned app (avoid 'damaged app' warning)
+    
+    - name: Strip and re-sign with ad-hoc signature
       run: |
+        # Remove any existing signatures
+        codesign --remove-signature "$APP_PATH" 2>/dev/null || true
+        
+        # Remove extended attributes that might contain identity info
         xattr -cr "$APP_PATH"
-        rm -rf "$APP_PATH/Contents/_CodeSignature" "$APP_PATH/Contents/CodeResources"
-        echo "Removed all code signature metadata and quarantine attributes."
-
+        
+        # Re-sign with ad-hoc signature (no identity)
+        codesign -s - --force --deep "$APP_PATH"
+        
+        # Verify the signature is ad-hoc
+        codesign -dv "$APP_PATH" 2>&1
+        
+        echo "App re-signed with ad-hoc signature"
+    
     - name: Create DMG
       run: |
         mkdir -p dist
@@ -62,7 +71,7 @@ jobs:
           --no-internet-enable \
           "dist/TahoeElectronFix-${{ github.ref_name }}.dmg" \
           "${{ env.APP_PATH }}"
-
+    
     - name: VirusTotal Scan
       uses: crazy-max/ghaction-virustotal@v3
       with:
@@ -70,8 +79,7 @@ jobs:
         files: |
           dist/*.dmg
         update_release_body: true
-      continue-on-error: true
-
+    
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
@@ -98,7 +106,7 @@ jobs:
           ☕ [Support the developer](https://ko-fi.com/realabitbol)
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-
+    
     - name: Upload DMG artifact
       uses: actions/upload-artifact@v4
       with:
