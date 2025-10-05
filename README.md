@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.virustotal.com/gui/file-analysis/OTQ0Mzc3MmU4ZmI4YTI5YjBiOGVhNTk1ZDIyZjBlZGE6MTc1OTY4MDI2NQ==/detection"><img src="https://img.shields.io/badge/VirusTotal-Scanned-green" alt="VirusTotal Scan"></a>
+  <a href="https://www.virustotal.com/gui/file-analysis/NzRiZTU0Njc5NDY0NjU4YzYwYjA4MzU1MmI2MmFlYTQ6MTc1OTY4NDk1NA==/detection"><img src="https://img.shields.io/badge/VirusTotal-Scanned-green" alt="VirusTotal Scan"></a>
 </p>
 
 <p align="center">
