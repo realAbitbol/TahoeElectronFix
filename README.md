@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.virustotal.com"><img src="https://img.shields.io/badge/VirusTotal-Scanned-green" alt="VirusTotal Scan"></a>
+  <a href="https://www.virustotal.com/gui/file/5b5a1667168786acdbeae99bec731ce52507d2dd17e62ddf73d9165c8d53a446/behavior"><img src="https://img.shields.io/badge/VirusTotal-Scanned-green" alt="VirusTotal Scan"></a>
 </p>
 
 <p align="center">
