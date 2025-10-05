@@ -56,6 +56,29 @@ jobs:
         
         echo "App re-signed with ad-hoc signature"
     
+    - name: Create installation instructions
+      run: |
+        mkdir -p dmg_contents
+        cp -R "$APP_PATH" dmg_contents/
+        cat > dmg_contents/README.txt << 'EOF'
+        ╔════════════════════════════════════════════════════════════╗
+        ║           TahoeElectronFix Installation                   ║
+        ╚════════════════════════════════════════════════════════════╝
+
+        📦 INSTALLATION STEPS:
+        1. Drag TahoeElectronFix.app to Applications folder
+        2. Right-click the app and select "Open" (first time only)
+
+        ⚡ OR run this command in Terminal:
+        
+           xattr -cr /Applications/TahoeElectronFix.app
+
+        ════════════════════════════════════════════════════════════
+
+        ℹ️  This is required because the app is not notarized by Apple.
+           It's safe to use - check the VirusTotal scan in the release.
+        EOF
+    
     - name: Create DMG
       run: |
         mkdir -p dist
@@ -63,22 +86,25 @@ jobs:
           --volname "TahoeElectronFix" \
           --volicon "${{ env.APP_PATH }}/Contents/Resources/AppIcon.icns" \
           --window-pos 200 120 \
-          --window-size 600 400 \
+          --window-size 700 450 \
           --icon-size 100 \
-          --icon "TahoeElectronFix.app" 175 120 \
+          --icon "TahoeElectronFix.app" 150 150 \
           --hide-extension "TahoeElectronFix.app" \
-          --app-drop-link 425 120 \
+          --app-drop-link 450 150 \
+          --icon "README.txt" 150 280 \
           --no-internet-enable \
           "dist/TahoeElectronFix-${{ github.ref_name }}.dmg" \
-          "${{ env.APP_PATH }}"
+          "dmg_contents"
     
     - name: VirusTotal Scan
+      id: virustotal
       uses: crazy-max/ghaction-virustotal@v3
       with:
         vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
         files: |
           dist/*.dmg
-        update_release_body: true
+        update_release_body: false
+      continue-on-error: true
     
     - name: Create Release
       uses: softprops/action-gh-release@v1
@@ -96,10 +122,14 @@ jobs:
           1. Download `TahoeElectronFix-${{ github.ref_name }}.dmg`
           2. Open the DMG file
           3. Drag TahoeElectronFix to Applications
-          4. Right-click and select "Open" (first time only)
+          4. Right-click and select "Open" (first time only) or run in terminal `xattr -cr /Applications/TahoeElectronFix.app`
 
           ### Requirements
           - macOS 13.0 (Ventura) or later
+          - Apple Silicon or Intel Mac (Universal binary)
+
+          ### Security Scan
+          ${{ steps.virustotal.outputs.vt_analysis }} - [VirusTotal Report](${{ steps.virustotal.outputs.vt_url }})
 
           ---
 
